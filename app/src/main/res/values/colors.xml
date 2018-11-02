@@ -3,4 +3,56 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="white">#ffffff</color>
+    <color name="white_pressed">#f2f2f2</color>
+    <color name="white_disabled">#ffffff</color>
+
+    <color name="black">#000000</color>
+    <color name="grey0">#dddddd</color>
+    <color name="grey1">#bababa</color>
+    <color name="grey2">#919191</color>
+    <color name="grey3">#757575</color>
+    <color name="grey4">#666666</color>
+    <color name="grey5">#3a3a3a</color>
+    <color name="grey7">#212121</color>
+
+    <color name="light_ripple">#35ffffff</color>
+    <color name="dark_ripple">#35000000</color>
+    <color name="light_bg">#fff8f8f8</color>
+    <color name="light_bg_0p">#00f5f7f8</color>
+
+    <!-- Colors with material opacity -->
+    <color name="light_00p">#00ffffff</color>
+    <color name="light_12p">#1fffffff</color>
+    <color name="light_38p">#61ffffff</color>
+    <color name="light_50p">#80ffffff</color>
+    <color name="light_70p">#b3ffffff</color>
+    <color name="light_87p">#deffffff</color>
+    <color name="light_90p">#e5ffffff</color>
+    <color name="light_100p">#ffffffff</color>
+
+    <color name="dark_00p">#00202125</color>
+    <color name="dark_03p">#07202125</color>
+    <color name="dark_06p">#0f202125</color>
+    <color name="dark_06p_on_white">#fff1f1f1</color>
+    <color name="dark_12p">#1f202125</color>
+    <color name="dark_12p_on_white">#ffe4e4e4</color>
+    <color name="dark_24p">#3d202125</color>
+    <color name="dark_38p">#61202125</color>
+    <color name="dark_50p">#80202125</color>
+    <color name="dark_55p">#8a202125</color>
+    <color name="dark_55p_on_white">#ff848587</color>
+    <color name="dark_70p">#b3202125</color>
+    <color name="dark_80p">#cc202125</color>
+    <color name="dark_87p">#de202125</color>
+    <color name="dark_87p_on_white">#ff3c3d41</color>
+    <color name="dark_90p">#e5202125</color>
+    <color name="dark_100p">#ff202125</color>
+
+    <color name="light_blue_55p">#8ae5eeff</color>
+    <color name="light_blue_100p">#ffe5eeff</color>
+
 </resources>

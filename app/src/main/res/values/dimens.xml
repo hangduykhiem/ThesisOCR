@@ -1,0 +1,57 @@
+<resources>
+
+    <dimen name="u0.5">3dp</dimen>
+    <dimen name="u0.75">4.5dp</dimen>
+    <dimen name="u1">6dp</dimen>
+    <dimen name="u1.25">7.5dp</dimen>
+    <dimen name="u1.5">9dp</dimen>
+    <dimen name="u1.75">10.5dp</dimen>
+    <dimen name="u2">12dp</dimen>
+    <dimen name="u2.25">13.5dp</dimen>
+    <dimen name="u2.5">15dp</dimen>
+    <dimen name="u3">18dp</dimen>
+    <dimen name="u3.5">21dp</dimen>
+    <dimen name="u4">24dp</dimen>
+    <dimen name="n_u4">-24dp</dimen>
+    <dimen name="u4.5">27dp</dimen>
+    <dimen name="u5">30dp</dimen>
+    <dimen name="u6">36dp</dimen>
+    <dimen name="u7">42dp</dimen>
+    <dimen name="u7.5">44dp</dimen>
+    <dimen name="u8">48dp</dimen>
+    <dimen name="u9">54dp</dimen>
+    <dimen name="u10">60dp</dimen>
+    <dimen name="u11">66dp</dimen>
+    <dimen name="u12">72dp</dimen>
+    <dimen name="u12.5">75dp</dimen>
+    <dimen name="u13">78dp</dimen>
+    <dimen name="u15">90dp</dimen>
+    <dimen name="u17">102dp</dimen>
+    <dimen name="u17.5">105dp</dimen>
+    <dimen name="u20">120dp</dimen>
+    <dimen name="u21">126dp</dimen>
+    <dimen name="u24">144dp</dimen>
+    <dimen name="u25">150dp</dimen>
+    <dimen name="u30">180dp</dimen>
+    <dimen name="u35">210dp</dimen>
+    <dimen name="u35_16_9">118dp</dimen>
+    <dimen name="u40">240dp</dimen>
+    <dimen name="u40_16_9">135dp</dimen>
+    <dimen name="u40_3_2">160dp</dimen>
+    <dimen name="u45">270dp</dimen>
+    <dimen name="u60">360dp</dimen>
+    <dimen name="text0">9sp</dimen>
+    <dimen name="text1">10sp</dimen>
+    <dimen name="text2">12sp</dimen>
+    <dimen name="text3">14sp</dimen>
+    <dimen name="text4">16sp</dimen>
+    <dimen name="text5">18sp</dimen>
+    <dimen name="text6">20sp</dimen>
+    <dimen name="text7">22sp</dimen>
+    <dimen name="text9">26sp</dimen>
+    <dimen name="text11">30sp</dimen>
+    <dimen name="text15">38sp</dimen>
+    <dimen name="text19">46sp</dimen>
+    <dimen name="text23">54sp</dimen>
+
+</resources>
