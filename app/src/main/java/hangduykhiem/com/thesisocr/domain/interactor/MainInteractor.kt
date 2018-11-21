@@ -5,13 +5,17 @@ import com.wolt.tacotaco.components.Command
 import com.wolt.tacotaco.components.Model
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.view.controller.OpenCameraCommand
+import hangduykhiem.com.thesisocr.view.delegate.CameraDelegate
+import java.io.IOException
 import javax.inject.Inject
 
-class MainInteractor @Inject constructor() : Interactor<NoArg, MainModel>() {
+class MainInteractor @Inject constructor(
+    val cameraDelegate: CameraDelegate
+) : Interactor<NoArg, MainModel>() {
 
     override fun onAttach(restored: Boolean) {
         super.onAttach(restored)
-        updateModel()
+        updateModel(MainModel())
     }
 
     override fun handleCommand(command: Command) {
@@ -21,7 +25,11 @@ class MainInteractor @Inject constructor() : Interactor<NoArg, MainModel>() {
     }
 
     private fun openCamera() {
+        try {
+            cameraDelegate.takePicture()
+        } catch (e: IOException) {
 
+        }
     }
 
 }

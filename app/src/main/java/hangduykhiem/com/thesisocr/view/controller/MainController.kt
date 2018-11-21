@@ -1,8 +1,7 @@
 package hangduykhiem.com.thesisocr.view.controller
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
+import android.support.design.widget.FloatingActionButton
 import android.widget.Button
 import com.wolt.tacotaco.components.Command
 import com.wolt.tacotaco.components.Transition
@@ -17,7 +16,7 @@ import javax.inject.Inject
 class MainController : BaseController<NoArg, MainModel>(NoArg) {
 
     override val layoutId = R.layout.controller_main
-    val button: Button by bindView(R.id.button)
+    val button: FloatingActionButton by bindView(R.id.button)
 
     @Inject
     override lateinit var interactor: MainInteractor
@@ -30,6 +29,7 @@ class MainController : BaseController<NoArg, MainModel>(NoArg) {
     override fun onPostInflate(savedViewState: Bundle?) {
         super.onPostInflate(savedViewState)
         button.setOnClickListener {
+            sendCommand(OpenCameraCommand)
         }
     }
 

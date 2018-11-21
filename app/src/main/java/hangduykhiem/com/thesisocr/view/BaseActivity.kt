@@ -1,6 +1,5 @@
 package hangduykhiem.com.thesisocr.view
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -13,7 +12,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var component: ActivityComponent
     private val callbacksList = ArrayList<ActivityCallbacks>()
-    private var savedInstanceState: Bundle? = null
+    var savedInstanceState: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,23 +78,33 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun registerCallbacks(callbacks: ActivityCallbacks) {
+        callbacksList.add(callbacks)
+    }
+
+    fun unregisterCallbacks(callbacks: ActivityCallbacks) {
+        callbacksList.remove(callbacks)
+    }
+
+
 }
 
 abstract class ActivityCallbacks {
 
-    abstract fun onResume()
+    open fun onResume() {}
 
-    abstract fun onPause()
+    open fun onPause() {}
 
-    abstract fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {}
 
-    abstract fun onRequestPermissionsResult(
+    open fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>,
         grantResults: IntArray
-    )
+    ) {
+    }
 
-    abstract fun onSaveInstanceState(outState: Bundle)
+    open fun onSaveInstanceState(outState: Bundle) {}
 
-    abstract fun onDestroy()
+    open fun onDestroy() {}
 
 }
