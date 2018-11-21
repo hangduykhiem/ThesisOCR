@@ -1,6 +1,8 @@
 package hangduykhiem.com.thesisocr.view.controller
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import com.wolt.tacotaco.components.Command
 import com.wolt.tacotaco.components.Transition
@@ -20,6 +22,7 @@ class MainController : BaseController<NoArg, MainModel>(NoArg) {
     @Inject
     override lateinit var interactor: MainInteractor
 
+
     override fun inject() {
         (activity as MainActivity).component.plus(ControllerModule(this)).inject(this)
     }
@@ -27,9 +30,9 @@ class MainController : BaseController<NoArg, MainModel>(NoArg) {
     override fun onPostInflate(savedViewState: Bundle?) {
         super.onPostInflate(savedViewState)
         button.setOnClickListener {
-            
         }
     }
+
 
 }
 

@@ -3,6 +3,9 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="hangduykhiem.com.thesisocr">
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
             android:name=".ThesisApp"
             android:allowBackup="true"
