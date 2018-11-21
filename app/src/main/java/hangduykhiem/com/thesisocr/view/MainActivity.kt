@@ -6,16 +6,17 @@ import com.wolt.tacotaco.TacoTaco
 import hangduykhiem.com.thesisocr.ThesisApp
 import hangduykhiem.com.thesisocr.di.component.ActivityComponent
 import hangduykhiem.com.thesisocr.di.modules.ActivityModule
+import hangduykhiem.com.thesisocr.view.controller.RootController
 
 class MainActivity : AppCompatActivity() {
 
     private val tacoTaco = TacoTaco(this)
-    private lateinit var component: ActivityComponent
+    lateinit var component: ActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tacoTaco.install(emptyList()) {
-            RootController(RootArgs())
+            RootController()
         }
         component = ThesisApp.appComponent
             .plus(ActivityModule(this))

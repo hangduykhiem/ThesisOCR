@@ -37,17 +37,12 @@ class TacoTaco(private val activity: Activity) {
 
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
-            Crashlytics.log("TacoTaco onActivityCreated ${activity.hashCode()}")
             if (savedInstanceState != null) {
                 try {
                     rootController = StoreRestoreHelper.restoreRoot(activity, singletons, savedInstanceState)
                     return
                 } catch (e: Exception) {
-                    if (BuildConfig.DEBUG) {
-                        throw e
-                    } else {
-                        Crashlytics.logException(e)
-                    }
+                    throw e
                 }
             }
             rootController = controllerFactory.invoke()

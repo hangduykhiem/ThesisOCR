@@ -13,5 +13,6 @@ interface AppComponent {
     fun plus(module: ActivityModule): ActivityComponent
 
     fun inject(app: ThesisApp)
+
 }
 

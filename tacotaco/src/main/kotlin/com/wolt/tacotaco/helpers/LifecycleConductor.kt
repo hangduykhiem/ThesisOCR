@@ -1,8 +1,8 @@
 package com.wolt.tacotaco.helpers
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.crashlytics.android.Crashlytics
 import com.wolt.tacotaco.Controller
 import com.wolt.tacotaco.Controller.LifecycleStage
 import com.wolt.tacotaco.Controller.LifecycleStage.*
@@ -17,7 +17,7 @@ internal object LifecycleConductor {
         val s1 = controller.stage
         val s2 = newStage
         when {
-        // -------------------------------------------------------------------------------------------------------------
+            // -------------------------------------------------------------------------------------------------------------
             s1 == None && s2 == BottomDeflated -> {
                 injectAndNotifyAttach(controller, stage = BottomDeflated)
             }
@@ -29,7 +29,7 @@ internal object LifecycleConductor {
                 inflateAndAttachView(controller)
                 notifyForeground(controller)
             }
-        // -------------------------------------------------------------------------------------------------------------
+            // -------------------------------------------------------------------------------------------------------------
             s1 == TopDeflated && s2 == TopInflatedForeground -> {
                 inflateAndAttachView(controller)
                 notifyForeground(controller)
@@ -40,7 +40,7 @@ internal object LifecycleConductor {
             s1 == TopDeflated && s2 == Dead -> {
                 notifyDetach(controller)
             }
-        // -------------------------------------------------------------------------------------------------------------
+            // -------------------------------------------------------------------------------------------------------------
             s1 == TopInflatedForeground && s2 == TopInflatedBackground -> {
                 notifyBackground(controller)
             }
@@ -53,7 +53,7 @@ internal object LifecycleConductor {
                 deflateAndDetachView(controller, saveState = false)
                 notifyDetach(controller)
             }
-        // -------------------------------------------------------------------------------------------------------------
+            // -------------------------------------------------------------------------------------------------------------
             s1 == TopInflatedBackground && s2 == TopDeflated -> {
                 deflateAndDetachView(controller, saveState = true)
             }
@@ -68,7 +68,7 @@ internal object LifecycleConductor {
                 deflateAndDetachView(controller, saveState = false)
                 notifyDetach(controller)
             }
-        // -------------------------------------------------------------------------------------------------------------
+            // -------------------------------------------------------------------------------------------------------------
             s1 == BottomInflated && s2 == TopInflatedForeground -> {
                 attachView(controller, getContainerView(controller))
                 inflateAndAttachViewsOfTopChildren(controller)
@@ -84,7 +84,7 @@ internal object LifecycleConductor {
                 deflate(controller, saveHierarchyState = false, saveClientState = false, stage = BottomDeflated)
                 notifyDetach(controller)
             }
-        // -------------------------------------------------------------------------------------------------------------
+            // -------------------------------------------------------------------------------------------------------------
             s1 == BottomDeflated && s2 == TopDeflated -> {
                 // do nothing
             }
@@ -95,10 +95,12 @@ internal object LifecycleConductor {
             s1 == BottomDeflated && s2 == Dead -> {
                 notifyDetach(controller)
             }
-        // -------------------------------------------------------------------------------------------------------------
+            // -------------------------------------------------------------------------------------------------------------
             else -> {
-                throw IllegalStateException("${controller.javaClass.simpleName} ${s1.javaClass.simpleName} " +
-                        s2.javaClass.simpleName)
+                throw IllegalStateException(
+                    "${controller.javaClass.simpleName} ${s1.javaClass.simpleName} " +
+                            s2.javaClass.simpleName
+                )
             }
         }
     }
@@ -135,8 +137,8 @@ internal object LifecycleConductor {
     private fun getContainerView(controller: Controller<*, *>): ViewGroup? {
         val parent = controller.parentInternal ?: return null
         return parent.backstacksInternal.entries
-                .first { (_, children) -> controller in children }
-                .let { (id, _) -> parent.customFindViewById(id, parent.view) }
+            .first { (_, children) -> controller in children }
+            .let { (id, _) -> parent.customFindViewById(id, parent.view) }
     }
 
     private fun attachView(controller: Controller<*, *>, containerView: ViewGroup?) {
@@ -150,13 +152,13 @@ internal object LifecycleConductor {
     private fun inflateAndAttachViewsOfTopChildren(controller: Controller<*, *>) {
         controller.apply {
             getTopChildren()
-                    .forEach { child ->
-                        if (child.view == null) {
-                            inflateAndAttachView(child)
-                        } else {
-                            inflateAndAttachViewsOfTopChildren(child)
-                        }
+                .forEach { child ->
+                    if (child.view == null) {
+                        inflateAndAttachView(child)
+                    } else {
+                        inflateAndAttachViewsOfTopChildren(child)
                     }
+                }
         }
     }
 
@@ -199,10 +201,10 @@ internal object LifecycleConductor {
     }
 
     private fun deflate(
-            controller: Controller<*, *>,
-            saveHierarchyState: Boolean,
-            saveClientState: Boolean,
-            stage: LifecycleStage
+        controller: Controller<*, *>,
+        saveHierarchyState: Boolean,
+        saveClientState: Boolean,
+        stage: LifecycleStage
     ) {
         controller.apply {
             setBackstackDelegate.endRunningAnimations()
@@ -221,10 +223,10 @@ internal object LifecycleConductor {
             getAllChildren().forEach { child ->
                 child.view?.let { childView ->
                     deflate(
-                            controller = child,
-                            saveHierarchyState = saveHierarchyState && childView.parent == null,
-                            saveClientState = saveClientState,
-                            stage = if (child in topChildren) TopDeflated else BottomDeflated
+                        controller = child,
+                        saveHierarchyState = saveHierarchyState && childView.parent == null,
+                        saveClientState = saveClientState,
+                        stage = if (child in topChildren) TopDeflated else BottomDeflated
                     )
                 }
             }
@@ -245,7 +247,7 @@ internal object LifecycleConductor {
 
     private fun log(controller: Controller<*, *>, msg: String) {
         val fullMsg = "${controller.javaClass.simpleName}:${controller.hashCode()} $msg"
-        Crashlytics.log(fullMsg)
+        Log.d(this.javaClass.simpleName, fullMsg)
     }
 
 }
