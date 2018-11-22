@@ -33,7 +33,6 @@ class MainController : BaseController<NoArg, MainModel>(NoArg) {
         }
     }
 
-
 }
 
 object OpenCameraCommand : Command

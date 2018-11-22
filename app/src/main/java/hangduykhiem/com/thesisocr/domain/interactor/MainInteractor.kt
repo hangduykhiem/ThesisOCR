@@ -5,7 +5,8 @@ import com.wolt.tacotaco.components.Command
 import com.wolt.tacotaco.components.Model
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.view.controller.OpenCameraCommand
-import hangduykhiem.com.thesisocr.view.delegate.CameraDelegate
+import hangduykhiem.com.thesisocr.view.controller.ToResultControllerTranstion
+import hangduykhiem.com.thesisocr.domain.delegate.CameraDelegate
 import java.io.IOException
 import javax.inject.Inject
 
@@ -26,6 +27,9 @@ class MainInteractor @Inject constructor(
 
     private fun openCamera() {
         try {
+            cameraDelegate.onPhotoTakenAction = {
+                navigate(ToResultControllerTranstion(ResultArgs(filePath = it)))
+            }
             cameraDelegate.takePicture()
         } catch (e: IOException) {
 

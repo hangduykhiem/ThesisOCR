@@ -1,4 +1,4 @@
-package hangduykhiem.com.thesisocr.view.delegate
+package hangduykhiem.com.thesisocr.domain.delegate
 
 import android.app.Activity
 import android.content.Intent
@@ -20,7 +20,7 @@ class CameraDelegate @Inject constructor(
     val activity: BaseActivity
 ) {
 
-    private lateinit var onPhotoTakenAction: (String) -> Unit
+    lateinit var onPhotoTakenAction: (String) -> Unit
     var photoUri: Uri? = null
 
     companion object {
