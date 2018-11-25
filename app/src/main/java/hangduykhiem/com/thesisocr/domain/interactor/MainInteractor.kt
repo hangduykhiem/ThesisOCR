@@ -28,7 +28,7 @@ class MainInteractor @Inject constructor(
     private fun openCamera() {
         try {
             cameraDelegate.onPhotoTakenAction = {
-                navigate(ToResultControllerTranstion(ResultArgs(filePath = it)))
+                navigate(ToResultControllerTranstion(ResultArgs(uri = it)))
             }
             cameraDelegate.takePicture()
         } catch (e: IOException) {

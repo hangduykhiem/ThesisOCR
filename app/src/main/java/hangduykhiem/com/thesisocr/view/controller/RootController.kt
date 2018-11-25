@@ -26,6 +26,10 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
                 val controller = MainController()
                 pushChild(controller, R.id.flMainContainer)
             }
+            is ToResultControllerTranstion -> {
+                val controller = ResultController(transition.args)
+                pushChild(controller, R.id.flDialogContainer)
+            }
         }
     }
 

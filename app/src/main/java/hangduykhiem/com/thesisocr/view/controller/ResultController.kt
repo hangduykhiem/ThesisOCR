@@ -49,12 +49,12 @@ class ResultController(
     }
 
     private fun renderImage(oldModel: ResultModel?, newModel: ResultModel) {
-        if (oldModel?.filePath != newModel.filePath && !newModel.filePath.isNullOrEmpty()) {
-            ivResult.setImageURI(Uri.parse(newModel.filePath))
+        if (oldModel?.uri != newModel.uri && newModel.uri != null) {
+            ivResult.setImageURI(newModel.uri)
         }
     }
 
 }
 
-class ToResultControllerTranstion(args: ResultArgs) : Transition
+class ToResultControllerTranstion(val args: ResultArgs) : Transition
 object FromResultControllerTranstion : Transition
