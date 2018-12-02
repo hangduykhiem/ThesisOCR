@@ -7,7 +7,8 @@ import android.net.Uri
 import android.os.Environment
 import com.googlecode.tesseract.android.TessBaseAPI
 import hangduykhiem.com.thesisocr.di.modules.AppModule
-import hangduykhiem.com.thesisocr.view.BaseActivity
+import hangduykhiem.com.thesisocr.helper.applySchedulers
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -29,11 +30,12 @@ class TesseDelegate @Inject constructor(
         }
     }
 
-    fun getText(uri: Uri): String {
-        val bitmap = getBitmap(uri)
-        tessBaseAPI.setImage(bitmap)
-        val text=  tessBaseAPI.utF8Text
-        return text
+    fun getText(uri: Uri): Observable<String> {
+        return Observable.fromCallable {
+            val bitmap = getBitmap(uri)
+            tessBaseAPI.setImage(bitmap)
+            return@fromCallable tessBaseAPI.utF8Text
+        }.compose(applySchedulers())
     }
 
     private fun getBitmap(uri: Uri): Bitmap {

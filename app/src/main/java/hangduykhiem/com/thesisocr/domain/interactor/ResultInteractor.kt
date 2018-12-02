@@ -7,12 +7,15 @@ import com.wolt.tacotaco.components.Model
 import hangduykhiem.com.thesisocr.domain.delegate.PermissionDelegate
 import hangduykhiem.com.thesisocr.domain.delegate.TesseDelegate
 import hangduykhiem.com.thesisocr.helper.WorkState
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class ResultInteractor @Inject constructor(
     val tesseDelegate: TesseDelegate,
     val permissionDelegate: PermissionDelegate
 ) : Interactor<ResultArgs, ResultModel>() {
+
+    val disposables = CompositeDisposable()
 
     override fun onAttach(restored: Boolean) {
         super.onAttach(restored)
@@ -32,11 +35,17 @@ class ResultInteractor @Inject constructor(
         }
     }
 
+    override fun onDetach() {
+        disposables.clear()
+    }
+
     private fun getResult() {
         updateModel(model.copy(loadingState = WorkState.InProgress))
         tesseDelegate.initLanguage("jpn")
-        val result = tesseDelegate.getText(model.uri!!)
-        updateModel(model.copy(loadingState = WorkState.Complete, resultString = result))
+        disposables.add(tesseDelegate.getText(model.uri!!).subscribe(
+            { updateModel(model.copy(loadingState = WorkState.Complete, resultString = it)) },
+            { updateModel(model.copy(loadingState = WorkState.Fail(it))) }
+        ))
     }
 }
 

@@ -20,4 +20,12 @@ class MainActivity : BaseActivity() {
         component.inject(this)
     }
 
+    override
+    fun onBackPressed() {
+        if (!tacoTaco.onBackPressed()) {
+            super.onBackPressed()
+        }
+    }
+
+
 }

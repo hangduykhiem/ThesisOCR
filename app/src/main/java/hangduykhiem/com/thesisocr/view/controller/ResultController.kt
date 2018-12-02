@@ -1,8 +1,10 @@
 package hangduykhiem.com.thesisocr.view.controller
 
-import android.net.Uri
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.wolt.tacotaco.components.ChangePayload
 import com.wolt.tacotaco.components.Transition
 import hangduykhiem.com.thesisocr.R
@@ -18,14 +20,22 @@ class ResultController(
     args: ResultArgs
 ) : BaseController<ResultArgs, ResultModel>(args) {
 
+//TODO: FAB bug
+
     override val layoutId = R.layout.controller_result
     private val ivResult: ImageView by bindView(R.id.ivResult)
     private val tvResult: TextView by bindView(R.id.tvResult)
+    private val pbLoading: ProgressBar by bindView(R.id.pbLoading)
     @Inject
     override lateinit var interactor: ResultInteractor
 
     override fun inject() {
         (activity as MainActivity).component.plus(ControllerModule(this)).inject(this)
+    }
+
+    override fun onBackPressed(): Boolean {
+        dispatchTransitionToParent(FromResultControllerTranstion)
+        return true
     }
 
     override fun renderModel(oldModel: ResultModel?, newModel: ResultModel, payload: ChangePayload?) {
@@ -38,9 +48,10 @@ class ResultController(
             when (newModel.loadingState) {
                 WorkState.Complete -> {
                     tvResult.text = newModel.resultString
+                    pbLoading.visibility = View.GONE
                 }
                 WorkState.InProgress -> {
-                    tvResult.text = "LOADING"
+                    pbLoading.visibility = View.VISIBLE
                 }
                 is WorkState.Fail -> {
                 }
@@ -50,7 +61,7 @@ class ResultController(
 
     private fun renderImage(oldModel: ResultModel?, newModel: ResultModel) {
         if (oldModel?.uri != newModel.uri && newModel.uri != null) {
-            ivResult.setImageURI(newModel.uri)
+            Glide.with(activity).load(newModel.uri).into(ivResult)
         }
     }
 
