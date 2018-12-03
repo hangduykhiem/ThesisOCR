@@ -41,7 +41,7 @@ class ResultInteractor @Inject constructor(
 
     private fun getResult() {
         updateModel(model.copy(loadingState = WorkState.InProgress))
-        tesseDelegate.initLanguage("jpn")
+        tesseDelegate.initLanguage("eng")
         disposables.add(tesseDelegate.getText(model.uri!!).subscribe(
             { updateModel(model.copy(loadingState = WorkState.Complete, resultString = it)) },
             { updateModel(model.copy(loadingState = WorkState.Fail(it))) }

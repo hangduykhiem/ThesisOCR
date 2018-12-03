@@ -6,6 +6,7 @@ import hangduykhiem.com.thesisocr.view.ActivityCallbacks
 import hangduykhiem.com.thesisocr.view.BaseActivity
 import javax.inject.Inject
 
+
 class FilePickerDelegate @Inject constructor(
     val activity: BaseActivity
 ) {
@@ -20,7 +21,7 @@ class FilePickerDelegate @Inject constructor(
     init {
         activity.registerCallbacks(object : ActivityCallbacks() {
             override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-                if (requestCode == CameraDelegate.REQUEST_IMAGE_CAPTURE) {
+                if (requestCode == REQUEST_IMAGE_FILE) {
                     val uri = data?.data
                     if (uri != null) {
                         onImagePickAction(uri)
@@ -31,7 +32,10 @@ class FilePickerDelegate @Inject constructor(
     }
 
     fun pickImageFromFile() {
-
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_IMAGE_FILE)
     }
 
 }
