@@ -27,5 +27,4 @@ class ThesisApp : Application() {
         appComponent.inject(this)
     }
 
-
 }

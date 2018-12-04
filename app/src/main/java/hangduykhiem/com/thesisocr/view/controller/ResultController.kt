@@ -20,8 +20,6 @@ class ResultController(
     args: ResultArgs
 ) : BaseController<ResultArgs, ResultModel>(args) {
 
-//TODO: FAB bug
-
     override val layoutId = R.layout.controller_result
     private val ivResult: ImageView by bindView(R.id.ivResult)
     private val tvResult: TextView by bindView(R.id.tvResult)

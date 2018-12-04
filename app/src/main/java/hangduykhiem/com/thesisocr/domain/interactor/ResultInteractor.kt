@@ -6,13 +6,15 @@ import com.wolt.tacotaco.components.Args
 import com.wolt.tacotaco.components.Model
 import hangduykhiem.com.thesisocr.domain.delegate.PermissionDelegate
 import hangduykhiem.com.thesisocr.domain.delegate.TesseDelegate
+import hangduykhiem.com.thesisocr.domain.repository.OcrResultRepository
 import hangduykhiem.com.thesisocr.helper.WorkState
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class ResultInteractor @Inject constructor(
     val tesseDelegate: TesseDelegate,
-    val permissionDelegate: PermissionDelegate
+    val permissionDelegate: PermissionDelegate,
+    val ocrResultRepository: OcrResultRepository
 ) : Interactor<ResultArgs, ResultModel>() {
 
     val disposables = CompositeDisposable()
@@ -41,12 +43,18 @@ class ResultInteractor @Inject constructor(
 
     private fun getResult() {
         updateModel(model.copy(loadingState = WorkState.InProgress))
+        val uri = model.uri ?: return
         tesseDelegate.initLanguage("eng")
-        disposables.add(tesseDelegate.getText(model.uri!!).subscribe(
-            { updateModel(model.copy(loadingState = WorkState.Complete, resultString = it)) },
+
+        disposables.add(tesseDelegate.getText(uri).flatMapCompletable {
+            updateModel(model.copy(loadingState = WorkState.Complete, resultString = it))
+            ocrResultRepository.saveOcrResult(uri = uri, result = it)
+        }.subscribe(
+            { },
             { updateModel(model.copy(loadingState = WorkState.Fail(it))) }
         ))
     }
+
 }
 
 data class ResultArgs(

@@ -1,25 +1,44 @@
 package hangduykhiem.com.thesisocr.domain.interactor
 
+import android.util.Log
 import com.wolt.tacotaco.Interactor
 import com.wolt.tacotaco.components.Command
 import com.wolt.tacotaco.components.Model
 import hangduykhiem.com.thesisocr.domain.delegate.CameraDelegate
 import hangduykhiem.com.thesisocr.domain.delegate.FilePickerDelegate
+import hangduykhiem.com.thesisocr.domain.repository.OcrResultRepository
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.view.controller.OpenCameraCommand
 import hangduykhiem.com.thesisocr.view.controller.OpenFileCommand
 import hangduykhiem.com.thesisocr.view.controller.ToResultControllerTranstion
+import io.reactivex.disposables.Disposable
 import java.io.IOException
 import javax.inject.Inject
 
 class MainInteractor @Inject constructor(
     val cameraDelegate: CameraDelegate,
-    val filePickerDelegate: FilePickerDelegate
+    val filePickerDelegate: FilePickerDelegate,
+    val ocrResultRepository: OcrResultRepository
 ) : Interactor<NoArg, MainModel>() {
+
+    lateinit var ocrDisposable: Disposable
 
     override fun onAttach(restored: Boolean) {
         super.onAttach(restored)
         updateModel(MainModel())
+        ocrDisposable = ocrResultRepository.getAllOcrResult().subscribe(
+            {
+                Log.d("Main", it.toString())
+            },
+            {
+                it.printStackTrace()
+            }
+        )
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        ocrDisposable.dispose()
     }
 
     override fun handleCommand(command: Command) {
