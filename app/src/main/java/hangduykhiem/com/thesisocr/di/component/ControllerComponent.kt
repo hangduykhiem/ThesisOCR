@@ -6,6 +6,7 @@ import hangduykhiem.com.thesisocr.di.scope.PerController
 import hangduykhiem.com.thesisocr.view.controller.MainController
 import hangduykhiem.com.thesisocr.view.controller.ResultController
 import hangduykhiem.com.thesisocr.view.controller.RootController
+import hangduykhiem.com.thesisocr.view.controller.SplashController
 
 @PerController
 @Subcomponent(modules = [ControllerModule::class])
@@ -16,4 +17,6 @@ interface ControllerComponent {
     fun inject(mainController: MainController)
 
     fun inject(resultController: ResultController)
+
+    fun inject(splashController: SplashController)
 }

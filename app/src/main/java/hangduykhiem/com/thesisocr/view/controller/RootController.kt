@@ -22,6 +22,10 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
 
     override fun handleTransition(transition: Transition) {
         when (transition) {
+            ToSplashControllerTransition -> {
+                val controller = SplashController()
+                pushChild(controller, R.id.flMainContainer)
+            }
             ToMainControllerTransition -> {
                 val controller = MainController()
                 pushChild(controller, R.id.flMainContainer)
