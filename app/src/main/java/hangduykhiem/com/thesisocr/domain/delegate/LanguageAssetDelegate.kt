@@ -14,6 +14,14 @@ class LanguageAssetDelegate @Inject constructor(
     @Named(APP_CONTEXT) val context: Context
 ) {
 
+    companion object {
+        val TESSDATA_PATH = Environment.getExternalStorageDirectory()?.absolutePath?.plus("/tessdata/") ?: ""
+        val ENG_DATA_PATH = if (TESSDATA_PATH.isEmpty()) TESSDATA_PATH.plus("eng.trainedData") else ""
+        val VIE_DATA_PATH = if (TESSDATA_PATH.isEmpty()) TESSDATA_PATH.plus("vie.tessdata") else ""
+        val JPN_DATA_PATH = if (TESSDATA_PATH.isEmpty()) TESSDATA_PATH.plus("jpn.tessdata") else ""
+        val FIN_DATA_PATH = if (TESSDATA_PATH.isEmpty()) TESSDATA_PATH.plus("fin.tessdata") else ""
+    }
+
     fun moveLanguageAssetToFolder(): Completable {
         return Completable.fromCallable {
             val assetManager = context.assets
@@ -26,7 +34,7 @@ class LanguageAssetDelegate @Inject constructor(
 
             if (files != null) {
                 val tessDataFolder =
-                    File(Environment.getExternalStorageDirectory()?.absolutePath + "/tessdata/")
+                    File(TESSDATA_PATH)
                 tessDataFolder.mkdirs()
                 for (filename in files) {
                     var `in`: InputStream? = null
@@ -74,7 +82,18 @@ class LanguageAssetDelegate @Inject constructor(
     /**
      * Cons: Currently, this check Filename. For more security, MD5 checksum might be better.
      */
-    fun checkLanguageAsset() {
+    fun shouldCopyLanguageAsset(): Boolean {
+        if (ENG_DATA_PATH.isEmpty() ||
+            VIE_DATA_PATH.isEmpty() ||
+            FIN_DATA_PATH.isEmpty() ||
+            JPN_DATA_PATH.isEmpty()
+        ) {
+            return false
+        }
 
+        return File(ENG_DATA_PATH).exists() &&
+                File(VIE_DATA_PATH).exists() &&
+                File(FIN_DATA_PATH).exists() &&
+                File(JPN_DATA_PATH).exists()
     }
 }

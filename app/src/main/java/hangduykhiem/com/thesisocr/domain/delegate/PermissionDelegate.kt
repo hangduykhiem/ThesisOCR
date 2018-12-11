@@ -23,9 +23,7 @@ class PermissionDelegate @Inject constructor(
                 grantResults: IntArray
             ) {
                 if (requestCode == PERMISSION_REQUEST) {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[1] == PackageManager.PERMISSION_GRANTED
-                    ) {
+                    if (!grantResults.isEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         callback(true)
                     } else {
                         callback(false)
@@ -36,7 +34,7 @@ class PermissionDelegate @Inject constructor(
         )
         ActivityCompat.requestPermissions(
             activity,
-            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
             PERMISSION_REQUEST
         )
     }

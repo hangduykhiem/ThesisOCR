@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/vBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77000000" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dialogContainer"
+        android:layout_width="@dimen/u35"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:padding="@dimen/u2">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Permission Denied"
+            android:textSize="@dimen/text5"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvExplanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/u1"
+            android:text="The OCR process depends on the ability to read and write to storage. Please enable it in Settings to use the application"
+            apps:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/u2"
+            android:gravity="center"
+            android:padding="@dimen/u1"
+            android:text="Cancel"
+            android:textColor="@color/color_button_text"
+            apps:layout_constraintEnd_toEndOf="parent"
+            apps:layout_constraintTop_toBottomOf="@id/tvExplanation" />
+
+        <TextView
+            android:id="@+id/tvToSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/u2"
+            android:gravity="center"
+            android:padding="@dimen/u1"
+            android:text="To Settings"
+            android:textColor="@color/color_button_text"
+            apps:layout_constraintEnd_toStartOf="@id/tvCancel"
+            apps:layout_constraintTop_toBottomOf="@id/tvExplanation" />
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

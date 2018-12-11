@@ -6,6 +6,7 @@ import hangduykhiem.com.thesisocr.domain.delegate.LanguageAssetDelegate
 import hangduykhiem.com.thesisocr.domain.delegate.PermissionDelegate
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.helper.NoModel
+import hangduykhiem.com.thesisocr.view.controller.ToPermissionDialogTransition
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -24,12 +25,24 @@ class SplashInteractor @Inject constructor(
         }
     }
 
+    override fun onDetach() {
+        compositeDisposable.clear()
+        super.onDetach()
+    }
+
+    override fun onForeground() {
+        super.onForeground()
+        requestStoragePermission()
+    }
+
     fun requestStoragePermission() {
         permissionDelegate.requestStoragePermission { result ->
             if (result) {
-                copyAsset()
+                if (languageAssetDelegate.shouldCopyLanguageAsset()) {
+                    copyAsset()
+                }
             } else {
-                //TODO: handle this
+                navigate(ToPermissionDialogTransition)
             }
         }
     }
