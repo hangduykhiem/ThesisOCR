@@ -88,12 +88,12 @@ class LanguageAssetDelegate @Inject constructor(
             FIN_DATA_PATH.isEmpty() ||
             JPN_DATA_PATH.isEmpty()
         ) {
-            return false
+            return true
         }
 
-        return File(ENG_DATA_PATH).exists() &&
-                File(VIE_DATA_PATH).exists() &&
-                File(FIN_DATA_PATH).exists() &&
-                File(JPN_DATA_PATH).exists()
+        return !File(ENG_DATA_PATH).exists() ||
+                !File(VIE_DATA_PATH).exists() ||
+                !File(FIN_DATA_PATH).exists() ||
+                !File(JPN_DATA_PATH).exists()
     }
 }

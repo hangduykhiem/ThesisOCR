@@ -1,29 +1,26 @@
 package hangduykhiem.com.thesisocr.domain.interactor
 
-import android.util.Log
+import android.Manifest
 import com.wolt.tacotaco.Interactor
 import hangduykhiem.com.thesisocr.domain.delegate.LanguageAssetDelegate
 import hangduykhiem.com.thesisocr.domain.delegate.PermissionDelegate
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.helper.NoModel
-import hangduykhiem.com.thesisocr.view.controller.ToPermissionDialogTransition
+import hangduykhiem.com.thesisocr.view.controller.ToMainControllerTransition
+import hangduykhiem.com.thesisocr.view.controller.ToPermissionDeniedDialogTransition
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class SplashInteractor @Inject constructor(
-    val permissionDelegate: PermissionDelegate,
-    val languageAssetDelegate: LanguageAssetDelegate
-
+        val permissionDelegate: PermissionDelegate,
+        val languageAssetDelegate: LanguageAssetDelegate
 ) : Interactor<NoArg, NoModel>() {
 
-    val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
-
-    override fun onAttach(restored: Boolean) {
-        super.onAttach(restored)
-        if (!restored) {
-            requestStoragePermission()
-        }
+    override fun onForeground() {
+        super.onForeground()
+        checkPermissionAndFiles()
     }
 
     override fun onDetach() {
@@ -31,40 +28,36 @@ class SplashInteractor @Inject constructor(
         super.onDetach()
     }
 
-    override fun onForeground() {
-        super.onForeground()
-        requestStoragePermission()
-    }
-
-    fun requestStoragePermission() {
-        permissionDelegate.requestStoragePermission { result ->
+    private fun checkPermissionAndFiles() {
+        permissionDelegate.checkAndRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) { result ->
             if (result) {
-                if (languageAssetDelegate.shouldCopyLanguageAsset()) {
-                    copyAsset()
-                }
+                checkFiles()
             } else {
-                navigate(ToPermissionDialogTransition { permissionDialogResultHanlder(it) })
+                showPermissionDenied()
             }
         }
     }
 
-    fun permissionDialogResultHanlder(success: Boolean) {
-        if (success) {
+    private fun showPermissionDenied() {
+        navigate(ToPermissionDeniedDialogTransition)
+    }
 
+    private fun checkFiles() {
+        if (languageAssetDelegate.shouldCopyLanguageAsset()) {
+            copyAsset()
         } else {
-
+            navigate(ToMainControllerTransition)
         }
     }
 
     fun copyAsset() {
         compositeDisposable.add(languageAssetDelegate.moveLanguageAssetToFolder().subscribe(
-            {
-                Log.d("SplashInteractor", "Yey")
-            },
-            {
-                Log.d("SplashInteractor", "Nay")
-                it.printStackTrace()
-            }
+                {
+                    navigate(ToMainControllerTransition)
+                },
+                {
+                    it.printStackTrace()
+                }
         ))
     }
 }

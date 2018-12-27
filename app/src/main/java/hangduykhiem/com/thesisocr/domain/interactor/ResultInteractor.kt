@@ -12,12 +12,12 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class ResultInteractor @Inject constructor(
-    val tesseDelegate: TesseDelegate,
-    val permissionDelegate: PermissionDelegate,
-    val ocrResultRepository: OcrResultRepository
+        private val tesseDelegate: TesseDelegate,
+        private val permissionDelegate: PermissionDelegate,
+        private val ocrResultRepository: OcrResultRepository
 ) : Interactor<ResultArgs, ResultModel>() {
 
-    val disposables = CompositeDisposable()
+    private val disposables = CompositeDisposable()
 
     override fun onAttach(restored: Boolean) {
         super.onAttach(restored)
@@ -27,8 +27,9 @@ class ResultInteractor @Inject constructor(
             } else if (args.id != null) {
                 // TODO: Load from Room
             }
-            permissionDelegate.requestStoragePermission {
-                if (it) {
+
+            permissionDelegate.checkAndRequestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) { result ->
+                if (result) {
                     getResult()
                 } else {
                     updateModel(ResultModel(loadingState = WorkState.Fail(SecurityException())))
@@ -50,20 +51,20 @@ class ResultInteractor @Inject constructor(
             updateModel(model.copy(loadingState = WorkState.Complete, resultString = it))
             ocrResultRepository.saveOcrResult(uri = uri, result = it)
         }.subscribe(
-            { },
-            { updateModel(model.copy(loadingState = WorkState.Fail(it))) }
+                { },
+                { updateModel(model.copy(loadingState = WorkState.Fail(it))) }
         ))
     }
 
 }
 
 data class ResultArgs(
-    val uri: Uri? = null,
-    val id: String? = null
+        val uri: Uri? = null,
+        val id: String? = null
 ) : Args
 
 data class ResultModel(
-    val uri: Uri? = null,
-    val resultString: String? = null,
-    val loadingState: WorkState
+        val uri: Uri? = null,
+        val resultString: String? = null,
+        val loadingState: WorkState
 ) : Model

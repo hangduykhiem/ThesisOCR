@@ -35,27 +35,15 @@
             apps:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
         <TextView
-            android:id="@+id/tvCancel"
+            android:id="@+id/tvOkay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/u2"
             android:gravity="center"
             android:padding="@dimen/u1"
-            android:text="Cancel"
+            android:text="Okay"
             android:textColor="@color/color_button_text"
             apps:layout_constraintEnd_toEndOf="parent"
-            apps:layout_constraintTop_toBottomOf="@id/tvExplanation" />
-
-        <TextView
-            android:id="@+id/tvToSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/u2"
-            android:gravity="center"
-            android:padding="@dimen/u1"
-            android:text="To Settings"
-            android:textColor="@color/color_button_text"
-            apps:layout_constraintEnd_toStartOf="@id/tvCancel"
             apps:layout_constraintTop_toBottomOf="@id/tvExplanation" />
 
     </android.support.constraint.ConstraintLayout>
