@@ -18,6 +18,7 @@ class SplashInteractor @Inject constructor(
 
     val compositeDisposable = CompositeDisposable()
 
+
     override fun onAttach(restored: Boolean) {
         super.onAttach(restored)
         if (!restored) {
@@ -42,8 +43,16 @@ class SplashInteractor @Inject constructor(
                     copyAsset()
                 }
             } else {
-                navigate(ToPermissionDialogTransition)
+                navigate(ToPermissionDialogTransition { permissionDialogResultHanlder(it) })
             }
+        }
+    }
+
+    fun permissionDialogResultHanlder(success: Boolean) {
+        if (success) {
+
+        } else {
+
         }
     }
 

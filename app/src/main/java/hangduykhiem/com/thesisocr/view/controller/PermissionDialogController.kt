@@ -11,7 +11,7 @@ import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.helper.NoModel
 import hangduykhiem.com.thesisocr.view.MainActivity
 
-class PermissionDialogController : BaseController<NoArg, NoModel>(NoArg) {
+class PermissionDialogController(val onResult: (Boolean) -> Unit) : BaseController<NoArg, NoModel>(NoArg) {
     override val layoutId: Int = R.layout.controller_dialog_permission
     override val interactor = null
 
@@ -26,14 +26,16 @@ class PermissionDialogController : BaseController<NoArg, NoModel>(NoArg) {
         super.onPostInflate(savedViewState)
         tvToSettings.setOnClickListener {
             activity.startActivityForResult(Intent(Settings.ACTION_SETTINGS), 0)
+            onResult(true)
             dispatchTransitionToParent(FromPermissionDialogTransition)
         }
         tvCancel.setOnClickListener {
+            onResult(false)
             dispatchTransitionToParent(FromPermissionDialogTransition)
         }
     }
 
 }
 
-object ToPermissionDialogTransition : Transition
+class ToPermissionDialogTransition(val onResult: (Boolean) -> Unit) : Transition
 object FromPermissionDialogTransition : Transition

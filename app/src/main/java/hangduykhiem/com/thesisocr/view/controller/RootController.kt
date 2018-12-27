@@ -35,8 +35,8 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
             FromResultControllerTranstion -> {
                 popChild(R.id.flMainContainer, ResultController::class.java.name)
             }
-            ToPermissionDialogTransition -> {
-                val controller = PermissionDialogController()
+            is ToPermissionDialogTransition -> {
+                val controller = PermissionDialogController(transition.onResult)
                 pushChild(controller, R.id.flDialogContainer, DialogPushAnimation())
             }
             FromPermissionDialogTransition -> {
