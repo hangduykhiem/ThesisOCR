@@ -2,14 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/white">
 
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="DETEXT"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text15" />
+        android:layout_margin="@dimen/u8"
+        android:src="@drawable/ic_logo_main" />
 
 </android.support.constraint.ConstraintLayout>
