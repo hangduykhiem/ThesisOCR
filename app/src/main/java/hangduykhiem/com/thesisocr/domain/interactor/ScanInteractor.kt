@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable
 import java.io.IOException
 import javax.inject.Inject
 
-class MainInteractor @Inject constructor(
+class ScanInteractor @Inject constructor(
     val cameraDelegate: CameraDelegate,
     val filePickerDelegate: FilePickerDelegate,
     val ocrResultRepository: OcrResultRepository

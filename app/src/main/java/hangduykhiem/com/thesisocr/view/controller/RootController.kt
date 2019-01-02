@@ -28,8 +28,8 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
                 val controller = SplashController()
                 pushChild(controller, R.id.flMainContainer)
             }
-            ToMainControllerTransition -> {
-                val controller = MainController()
+            ToMainTabsTransition -> {
+                val controller = MainTabsController()
                 pushChild(controller, R.id.flMainContainer)
             }
             FromResultControllerTranstion -> {

@@ -11,11 +11,13 @@ interface ControllerComponent {
 
     fun inject(rootController: RootController)
 
-    fun inject(mainController: MainController)
+    fun inject(scanController: ScanController)
 
     fun inject(resultController: ResultController)
 
     fun inject(splashController: SplashController)
 
     fun inject(permissionDialogController: PermissionDialogController)
+
+    fun inject(mainTabsController: MainTabsController)
 }
