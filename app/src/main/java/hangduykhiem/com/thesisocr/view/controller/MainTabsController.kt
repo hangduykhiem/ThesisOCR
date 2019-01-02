@@ -48,6 +48,7 @@ class MainTabsController : BaseController<NoArg, NoModel>(NoArg) {
             ToScanControllerTransition -> goToTab(ScanController::class.java.name, { ScanController() })
             ToHistoryControllerTransition -> goToTab(HistoryController::class.java.name, { HistoryController() })
             ToSettingsControllerTransition -> goToTab(SettingsController::class.java.name, { SettingsController() })
+            else -> dispatchTransitionToParent(transition)
         }
     }
 

@@ -32,7 +32,7 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
                 val controller = MainTabsController()
                 pushChild(controller, R.id.flMainContainer)
             }
-            FromResultControllerTranstion -> {
+            FromResultControllerTransition -> {
                 popChild(R.id.flMainContainer, ResultController::class.java.name)
             }
             is ToPermissionDeniedDialogTransition -> {
@@ -42,7 +42,7 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
             FromPermissionDeniedDialogTransition -> {
                 popChild(R.id.flDialogContainer, PermissionDialogController::class.java.name, DialogPopAnimation())
             }
-            is ToResultControllerTranstion -> {
+            is ToResultControllerTransition -> {
                 val controller = ResultController(transition.args)
                 pushChild(controller, R.id.flMainContainer)
             }

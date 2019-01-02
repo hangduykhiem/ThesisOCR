@@ -1,11 +1,13 @@
 package hangduykhiem.com.thesisocr.view.controller
 
+import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.wolt.tacotaco.components.ChangePayload
+import com.wolt.tacotaco.components.Command
 import com.wolt.tacotaco.components.Transition
 import hangduykhiem.com.thesisocr.R
 import hangduykhiem.com.thesisocr.di.modules.ControllerModule
@@ -24,6 +26,8 @@ class ResultController(
     private val ivResult: ImageView by bindView(R.id.ivResult)
     private val tvResult: TextView by bindView(R.id.tvResult)
     private val pbLoading: ProgressBar by bindView(R.id.pbLoading)
+    private val tvCopy: TextView by bindView(R.id.tvCopy)
+
     @Inject
     override lateinit var interactor: ResultInteractor
 
@@ -31,8 +35,15 @@ class ResultController(
         (activity as MainActivity).component.plus(ControllerModule(this)).inject(this)
     }
 
+    override fun onPostInflate(savedViewState: Bundle?) {
+        super.onPostInflate(savedViewState)
+        tvCopy.setOnClickListener {
+            sendCommand(copyToClipboardCommand)
+        }
+    }
+
     override fun onBackPressed(): Boolean {
-        dispatchTransitionToParent(FromResultControllerTranstion)
+        dispatchTransitionToParent(FromResultControllerTransition)
         return true
     }
 
@@ -63,7 +74,9 @@ class ResultController(
         }
     }
 
+    object copyToClipboardCommand : Command
+
 }
 
-class ToResultControllerTranstion(val args: ResultArgs) : Transition
-object FromResultControllerTranstion : Transition
+class ToResultControllerTransition(val args: ResultArgs) : Transition
+object FromResultControllerTransition : Transition

@@ -5,13 +5,44 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <LinearLayout
+        android:id="@+id/flToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
+            android:padding="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/baseline_arrow_back_white_48" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:gravity="center"
+            android:text="Result"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/pbLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/u2"
+        android:layout_marginTop="@dimen/u2"
+        android:layout_marginEnd="@dimen/u2"
+        android:layout_marginBottom="@dimen/u2"
         app:layout_constraintBottom_toBottomOf="@+id/tvResult"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvResult"
@@ -23,21 +54,36 @@
         android:layout_height="0dp"
         android:background="@color/black"
         android:scaleType="fitCenter"
-        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/flToolbar" />
+
+    <TextView
+        android:id="@+id/tvCopy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/u2"
+        android:layout_marginStart="@dimen/u1"
+        android:layout_marginEnd="@dimen/u2"
+        android:drawableStart="@drawable/ic_copy"
+        android:drawablePadding="@dimen/u1"
+        android:text="Copy"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvResultTitle"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tvResultTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/u2"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="RESULT"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/u2"
+        android:layout_marginTop="@dimen/u4"
+        android:layout_marginEnd="@dimen/u1"
+        android:layout_marginBottom="@dimen/u2"
+        android:gravity="start"
+        android:text="Text Detected:"
+        android:textSize="@dimen/text5"
+        app:layout_constraintEnd_toStartOf="@+id/tvCopy"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivResult" />
 

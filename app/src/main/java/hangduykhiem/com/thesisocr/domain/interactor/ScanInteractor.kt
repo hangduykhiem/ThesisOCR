@@ -10,7 +10,7 @@ import hangduykhiem.com.thesisocr.domain.repository.OcrResultRepository
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.view.controller.OpenCameraCommand
 import hangduykhiem.com.thesisocr.view.controller.OpenFileCommand
-import hangduykhiem.com.thesisocr.view.controller.ToResultControllerTranstion
+import hangduykhiem.com.thesisocr.view.controller.ToResultControllerTransition
 import io.reactivex.disposables.Disposable
 import java.io.IOException
 import javax.inject.Inject
@@ -51,7 +51,7 @@ class ScanInteractor @Inject constructor(
     private fun openCamera() {
         try {
             cameraDelegate.onPhotoTakenAction = {
-                navigate(ToResultControllerTranstion(ResultArgs(uri = it)))
+                navigate(ToResultControllerTransition(ResultArgs(uri = it)))
             }
             cameraDelegate.takePicture()
         } catch (e: IOException) {
@@ -61,7 +61,7 @@ class ScanInteractor @Inject constructor(
 
     private fun openFilePicker() {
         filePickerDelegate.onImagePickAction = {
-            navigate(ToResultControllerTranstion(ResultArgs(uri = it)))
+            navigate(ToResultControllerTransition(ResultArgs(uri = it)))
         }
         filePickerDelegate.pickImageFromFile()
     }
