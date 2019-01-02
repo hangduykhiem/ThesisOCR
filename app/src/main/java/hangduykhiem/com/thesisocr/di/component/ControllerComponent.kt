@@ -20,4 +20,8 @@ interface ControllerComponent {
     fun inject(permissionDialogController: PermissionDialogController)
 
     fun inject(mainTabsController: MainTabsController)
+
+    fun inject(historyController: HistoryController)
+
+    fun inject(settingsController: SettingsController)
 }

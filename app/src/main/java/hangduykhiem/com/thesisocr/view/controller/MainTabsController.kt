@@ -31,9 +31,9 @@ class MainTabsController : BaseController<NoArg, NoModel>(NoArg) {
     private fun setupBottomNavigationView() {
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menu_to_settings -> handleTransition(ToScanControllerTransition)
+                R.id.menu_to_settings -> handleTransition(ToSettingsControllerTransition)
                 R.id.menu_to_main -> handleTransition(ToScanControllerTransition)
-                R.id.menu_to_history -> handleTransition(ToScanControllerTransition)
+                R.id.menu_to_history -> handleTransition(ToHistoryControllerTransition)
                 else -> {
                     /* Do nothing */
                 }
@@ -46,6 +46,8 @@ class MainTabsController : BaseController<NoArg, NoModel>(NoArg) {
     override fun handleTransition(transition: Transition) {
         when (transition) {
             ToScanControllerTransition -> goToTab(ScanController::class.java.name, { ScanController() })
+            ToHistoryControllerTransition -> goToTab(HistoryController::class.java.name, { HistoryController() })
+            ToSettingsControllerTransition -> goToTab(SettingsController::class.java.name, { SettingsController() })
         }
     }
 
