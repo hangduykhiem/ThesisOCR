@@ -1,5 +1,6 @@
 package hangduykhiem.com.thesisocr.view.controller
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -38,7 +39,7 @@ class ResultController(
     override fun onPostInflate(savedViewState: Bundle?) {
         super.onPostInflate(savedViewState)
         tvCopy.setOnClickListener {
-            sendCommand(copyToClipboardCommand)
+            sendCommand(CopyToClipboardCommand)
         }
     }
 
@@ -69,12 +70,12 @@ class ResultController(
     }
 
     private fun renderImage(oldModel: ResultModel?, newModel: ResultModel) {
-        if (oldModel?.uri != newModel.uri && newModel.uri != null) {
-            Glide.with(activity).load(newModel.uri).into(ivResult)
+        if (oldModel?.uriString != newModel.uriString && newModel.uriString != null) {
+            Glide.with(activity).load(Uri.parse(newModel.uriString)).into(ivResult)
         }
     }
 
-    object copyToClipboardCommand : Command
+    object CopyToClipboardCommand : Command
 
 }
 

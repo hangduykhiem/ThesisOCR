@@ -51,7 +51,7 @@ class ScanInteractor @Inject constructor(
     private fun openCamera() {
         try {
             cameraDelegate.onPhotoTakenAction = {
-                navigate(ToResultControllerTransition(ResultArgs(uri = it)))
+                navigate(ToResultControllerTransition(ResultArgs(uriString = it.toString())))
             }
             cameraDelegate.takePicture()
         } catch (e: IOException) {
@@ -61,7 +61,7 @@ class ScanInteractor @Inject constructor(
 
     private fun openFilePicker() {
         filePickerDelegate.onImagePickAction = {
-            navigate(ToResultControllerTransition(ResultArgs(uri = it)))
+            navigate(ToResultControllerTransition(ResultArgs(uriString = it.toString())))
         }
         filePickerDelegate.pickImageFromFile()
     }

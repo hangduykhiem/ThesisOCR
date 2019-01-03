@@ -30,8 +30,8 @@ class ResultInteractor @Inject constructor(
     override fun onAttach(restored: Boolean) {
         super.onAttach(restored)
         if (!restored) {
-            if (args.uri != null) {
-                updateModel(ResultModel(loadingState = WorkState.Other, uri = args.uri))
+            if (args.uriString != null) {
+                updateModel(ResultModel(loadingState = WorkState.Other, uriString = args.uriString))
             } else if (args.id != null) {
                 // TODO: Load from Room
             }
@@ -52,7 +52,7 @@ class ResultInteractor @Inject constructor(
 
     override fun handleCommand(command: Command) {
         when (command) {
-            ResultController.copyToClipboardCommand -> {
+            ResultController.CopyToClipboardCommand -> {
                 copyResultToClipboard()
             }
         }
@@ -68,7 +68,7 @@ class ResultInteractor @Inject constructor(
 
     private fun getResult() {
         updateModel(model.copy(loadingState = WorkState.InProgress))
-        val uri = model.uri ?: return
+        val uri = Uri.parse(model.uriString) ?: return
         tesseDelegate.initLanguage("eng")
 
         disposables.add(tesseDelegate.getText(uri).flatMapCompletable {
@@ -83,12 +83,12 @@ class ResultInteractor @Inject constructor(
 }
 
 data class ResultArgs(
-    val uri: Uri? = null,
+    val uriString: String? = null,
     val id: String? = null
 ) : Args
 
 data class ResultModel(
-    val uri: Uri? = null,
+    val uriString: String? = null,
     val resultString: String? = null,
     val loadingState: WorkState
 ) : Model
