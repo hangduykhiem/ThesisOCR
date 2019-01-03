@@ -10,6 +10,7 @@ import com.wolt.tacotaco.components.Command
 import com.wolt.tacotaco.components.Model
 import hangduykhiem.com.thesisocr.domain.delegate.PermissionDelegate
 import hangduykhiem.com.thesisocr.domain.delegate.TesseDelegate
+import hangduykhiem.com.thesisocr.domain.model.OcrResultDomainModel
 import hangduykhiem.com.thesisocr.domain.repository.OcrResultRepository
 import hangduykhiem.com.thesisocr.helper.WorkState
 import hangduykhiem.com.thesisocr.view.BaseActivity
@@ -32,8 +33,15 @@ class ResultInteractor @Inject constructor(
         if (!restored) {
             if (args.uriString != null) {
                 updateModel(ResultModel(loadingState = WorkState.Other, uriString = args.uriString))
-            } else if (args.id != null) {
-                // TODO: Load from Room
+            } else if (args.ocrResultDomainModel != null) {
+                val result = args.ocrResultDomainModel!!
+                updateModel(
+                    ResultModel(
+                        loadingState = WorkState.Complete,
+                        uriString = result.uri.toString(),
+                        resultString = result.result
+                    )
+                )
             }
 
             permissionDelegate.checkAndRequestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) { result ->
@@ -84,7 +92,7 @@ class ResultInteractor @Inject constructor(
 
 data class ResultArgs(
     val uriString: String? = null,
-    val id: String? = null
+    val ocrResultDomainModel: OcrResultDomainModel? = null
 ) : Args
 
 data class ResultModel(

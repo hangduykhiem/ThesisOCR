@@ -3,7 +3,7 @@ package hangduykhiem.com.thesisocr.domain.repository
 import android.net.Uri
 import hangduykhiem.com.thesisocr.data.dao.OcrResultDAO
 import hangduykhiem.com.thesisocr.data.model.OcrResultData
-import hangduykhiem.com.thesisocr.domain.model.OcrResultDomain
+import hangduykhiem.com.thesisocr.domain.model.OcrResultDomainModel
 import hangduykhiem.com.thesisocr.helper.applyCompletableSchedulers
 import hangduykhiem.com.thesisocr.helper.applySingleSchedulers
 import io.reactivex.Completable
@@ -15,10 +15,10 @@ class OcrResultRepository @Inject constructor(
     val ocrResultDAO: OcrResultDAO
 ) {
 
-    fun getAllOcrResult(): Single<List<OcrResultDomain>> {
+    fun getAllOcrResult(): Single<List<OcrResultDomainModel>> {
         return ocrResultDAO.getAllOcrResult().map { list ->
             list.map { data ->
-                OcrResultDomain(data.uid!!, Uri.parse(data.uri), data.result, data.timestamp)
+                OcrResultDomainModel(data.uid!!, Uri.parse(data.uri), data.result, data.timestamp)
             }
         }.compose(applySingleSchedulers())
     }
