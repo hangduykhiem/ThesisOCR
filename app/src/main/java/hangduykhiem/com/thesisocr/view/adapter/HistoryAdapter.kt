@@ -1,5 +1,6 @@
 package hangduykhiem.com.thesisocr.view.adapter
 
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +45,7 @@ class HistoryAdapter(private val commandListener: (Command) -> Unit) :
 
         val ivResult: ImageView = holder.findViewById(R.id.ivResult)
         val tvResultTime: TextView = holder.findViewById(R.id.tvResultTime)
-        val tvResult: TextView = holder.findViewById(R.id.tvResultTime)
+        val tvResult: TextView = holder.findViewById(R.id.tvResult)
 
         init {
             holder.setOnClickListener {
@@ -55,9 +56,9 @@ class HistoryAdapter(private val commandListener: (Command) -> Unit) :
 
         fun bind(item: OcrResultDomainModel) {
             this.item = item
-            Glide.with(holder).load(item.uri).into(ivResult)
-            tvResultTime.setText(item.timestamp.toString())
-            tvResult.setText(item.result)
+            Glide.with(holder.context).load(Uri.parse(item.uriString)).into(ivResult)
+            tvResultTime.text = item.timestamp.toString()
+            tvResult.text = item.result
         }
     }
 }

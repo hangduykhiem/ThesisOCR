@@ -79,7 +79,6 @@ class HistoryController : BaseController<NoArg, HistoryModel>(NoArg) {
 
     private fun renderItems(oldModel: HistoryModel?, newModel: HistoryModel) {
         if (newModel.loadingState == WorkState.Complete
-            && newModel.historyResultModels != oldModel?.historyResultModels
             && !newModel.historyResultModels.isEmpty()
         ) {
             adapter.setItems(newModel.historyResultModels)

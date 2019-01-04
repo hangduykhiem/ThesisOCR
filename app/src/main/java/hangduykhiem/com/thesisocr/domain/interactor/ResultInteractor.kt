@@ -33,23 +33,22 @@ class ResultInteractor @Inject constructor(
         if (!restored) {
             if (args.uriString != null) {
                 updateModel(ResultModel(loadingState = WorkState.Other, uriString = args.uriString))
+                permissionDelegate.checkAndRequestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) { result ->
+                    if (result) {
+                        getResult()
+                    } else {
+                        updateModel(ResultModel(loadingState = WorkState.Fail(SecurityException())))
+                    }
+                }
             } else if (args.ocrResultDomainModel != null) {
                 val result = args.ocrResultDomainModel!!
                 updateModel(
                     ResultModel(
                         loadingState = WorkState.Complete,
-                        uriString = result.uri.toString(),
+                        uriString = result.uriString,
                         resultString = result.result
                     )
                 )
-            }
-
-            permissionDelegate.checkAndRequestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) { result ->
-                if (result) {
-                    getResult()
-                } else {
-                    updateModel(ResultModel(loadingState = WorkState.Fail(SecurityException())))
-                }
             }
         }
     }

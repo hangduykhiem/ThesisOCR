@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/u2"
-
+    android:layout_marginStart="@dimen/u2"
+    android:layout_marginTop="@dimen/u1"
+    android:layout_marginEnd="@dimen/u2"
+    android:layout_marginBottom="@dimen/u1"
     android:elevation="16dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="@dimen/u15">
 
         <ImageView
             android:id="@+id/ivResult"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/u15"
+            android:layout_height="@dimen/u15"
+            android:background="@color/grey0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,6 +29,7 @@
             android:layout_marginStart="@dimen/u1"
             android:layout_marginTop="@dimen/u1"
             android:layout_marginEnd="@dimen/u1"
+            android:layout_marginBottom="@dimen/u1"
             android:textSize="@dimen/text1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivResult"
@@ -37,14 +41,17 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/u1"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/u1"
             android:layout_marginBottom="@dimen/u1"
             android:ellipsize="end"
+            android:maxLines="3"
+            android:paddingBottom="@dimen/u1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
             app:layout_constraintStart_toEndOf="@id/ivResult"
-            app:layout_constraintTop_toBottomOf="@id/tvResultTime"
-
+            app:layout_constraintTop_toBottomOf="@+id/tvResultTime"
             tools:text="This is the result, This is the result This is the result This is the result This is the result This is the resultThis is the resultThis is the resultThis is the result" />
     </android.support.constraint.ConstraintLayout>
 

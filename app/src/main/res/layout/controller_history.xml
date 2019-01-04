@@ -6,7 +6,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/u1"
+        android:paddingBottom="@dimen/u1" />
 
     <TextView
         android:id="@+id/tvFail"

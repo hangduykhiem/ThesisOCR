@@ -18,7 +18,7 @@ class OcrResultRepository @Inject constructor(
     fun getAllOcrResult(): Single<List<OcrResultDomainModel>> {
         return ocrResultDAO.getAllOcrResult().map { list ->
             list.map { data ->
-                OcrResultDomainModel(data.uid!!, Uri.parse(data.uri), data.result, data.timestamp)
+                OcrResultDomainModel(data.uid!!, data.uri, data.result, data.timestamp)
             }
         }.compose(applySingleSchedulers())
     }

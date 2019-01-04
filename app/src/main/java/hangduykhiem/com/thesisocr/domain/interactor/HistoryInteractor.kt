@@ -23,8 +23,12 @@ class HistoryInteractor @Inject constructor(
         super.onAttach(restored)
         if (!restored) {
             updateModel(HistoryModel(arrayListOf(), Other))
-            loadHistory()
         }
+    }
+
+    override fun onForeground() {
+        super.onForeground()
+        loadHistory()
     }
 
     private fun loadHistory() {
