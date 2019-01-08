@@ -7,6 +7,7 @@ import com.wolt.tacotaco.Interactor
 import com.wolt.tacotaco.components.Transition
 import hangduykhiem.com.thesisocr.R
 import hangduykhiem.com.thesisocr.di.modules.ControllerModule
+import hangduykhiem.com.thesisocr.helper.FadeInFadeOutAnimation
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.helper.NoModel
 import hangduykhiem.com.thesisocr.view.BaseActivity
@@ -64,7 +65,7 @@ class MainTabsController : BaseController<NoArg, NoModel>(NoArg) {
         } else {
             backstack.add(backstack.removeAt(index))
         }
-        setBackstack(R.id.flTabsContainer, backstack)
+        setBackstack(R.id.flTabsContainer, backstack, FadeInFadeOutAnimation())
     }
 
 }

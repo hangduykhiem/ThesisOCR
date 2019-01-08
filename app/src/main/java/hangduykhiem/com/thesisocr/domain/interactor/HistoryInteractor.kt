@@ -11,6 +11,7 @@ import hangduykhiem.com.thesisocr.helper.WorkState.*
 import hangduykhiem.com.thesisocr.view.controller.HistoryController
 import hangduykhiem.com.thesisocr.view.controller.ToResultControllerTransition
 import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HistoryInteractor @Inject constructor(
@@ -50,7 +51,6 @@ class HistoryInteractor @Inject constructor(
             }
         }
     }
-
 
     override fun onDetach() {
         ocrDisposable.clear()

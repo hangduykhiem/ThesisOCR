@@ -23,6 +23,7 @@ class FilePickerDelegate @Inject constructor(
             override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
                 if (requestCode == REQUEST_IMAGE_FILE) {
                     val uri = data?.data
+
                     if (uri != null) {
                         onImagePickAction(uri)
                     }

@@ -6,6 +6,7 @@ import hangduykhiem.com.thesisocr.domain.delegate.LanguageAssetDelegate
 import hangduykhiem.com.thesisocr.domain.delegate.PermissionDelegate
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.helper.NoModel
+import hangduykhiem.com.thesisocr.view.controller.ToMainTabsTransition
 import hangduykhiem.com.thesisocr.view.controller.ToScanControllerTransition
 import hangduykhiem.com.thesisocr.view.controller.ToPermissionDeniedDialogTransition
 import io.reactivex.disposables.CompositeDisposable
@@ -46,14 +47,14 @@ class SplashInteractor @Inject constructor(
         if (languageAssetDelegate.shouldCopyLanguageAsset()) {
             copyAsset()
         } else {
-            navigate(ToScanControllerTransition)
+            navigate(ToMainTabsTransition)
         }
     }
 
     fun copyAsset() {
         compositeDisposable.add(languageAssetDelegate.moveLanguageAssetToFolder().subscribe(
                 {
-                    navigate(ToScanControllerTransition)
+                    navigate(ToMainTabsTransition)
                 },
                 {
                     it.printStackTrace()

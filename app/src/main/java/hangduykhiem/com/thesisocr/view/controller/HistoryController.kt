@@ -1,5 +1,6 @@
 package hangduykhiem.com.thesisocr.view.controller
 
+import android.animation.Animator
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,6 +17,7 @@ import hangduykhiem.com.thesisocr.domain.interactor.HistoryModel
 import hangduykhiem.com.thesisocr.domain.interactor.ResultArgs
 import hangduykhiem.com.thesisocr.helper.NoArg
 import hangduykhiem.com.thesisocr.helper.WorkState
+import hangduykhiem.com.thesisocr.helper.buildAnimator
 import hangduykhiem.com.thesisocr.view.BaseActivity
 import hangduykhiem.com.thesisocr.view.MainActivity
 import hangduykhiem.com.thesisocr.view.adapter.HistoryAdapter
@@ -33,6 +35,8 @@ class HistoryController : BaseController<NoArg, HistoryModel>(NoArg) {
     lateinit var baseActivity: BaseActivity
     private lateinit var adapter: HistoryAdapter
 
+    private var resultAnimator: Animator? = null
+
     override fun inject() {
         (activity as MainActivity).component.plus(ControllerModule(this)).inject(this)
     }
@@ -42,6 +46,15 @@ class HistoryController : BaseController<NoArg, HistoryModel>(NoArg) {
         setupRecyclerView()
     }
 
+    override fun onBackground() {
+        rvList.visibility = View.GONE // Help animation looks smoother when onForeground()
+    }
+
+    override fun onDeflate() {
+        resultAnimator?.cancel()
+        resultAnimator = null
+    }
+
     private fun setupRecyclerView() {
         val viewManager = LinearLayoutManager(baseActivity)
         adapter = HistoryAdapter { sendCommand(it) }
@@ -49,35 +62,80 @@ class HistoryController : BaseController<NoArg, HistoryModel>(NoArg) {
         rvList.layoutManager = viewManager
     }
 
+    private fun showResult() {
+        resultAnimator?.cancel()
+        resultAnimator = buildAnimator(300,
+            onStart = {
+                rvList.visibility = View.VISIBLE
+                rvList.alpha = 0f
+            },
+            onUpdate = {
+                rvList.alpha = it
+                tvFail.alpha = 1 - it
+                pbLoading.alpha = 1 - it
+            },
+            onEnd = {
+                tvFail.visibility = View.GONE
+                pbLoading.visibility = View.GONE
+            })
+        resultAnimator?.start()
+    }
+
+    private fun showFail() {
+        resultAnimator?.cancel()
+        resultAnimator = buildAnimator(300,
+            onStart = {
+                tvFail.visibility = View.VISIBLE
+                tvFail.alpha = 0f
+            },
+            onUpdate = {
+                tvFail.alpha = it
+                rvList.alpha = 1 - it
+                pbLoading.alpha = 1 - it
+            },
+            onEnd = {
+                rvList.visibility = View.GONE
+                pbLoading.visibility = View.GONE
+            })
+        resultAnimator?.start()
+    }
+
+    private fun showLoading() {
+        resultAnimator?.cancel()
+        resultAnimator = buildAnimator(300,
+            onStart = {
+                pbLoading.visibility = View.VISIBLE
+                pbLoading.alpha = 0f
+            },
+            onUpdate = {
+                pbLoading.alpha = it
+                rvList.alpha = 1 - it
+                tvFail.alpha = 1 - it
+            },
+            onEnd = {
+                tvFail.visibility = View.GONE
+                rvList.visibility = View.GONE
+            })
+        resultAnimator?.start()
+    }
+
     override fun renderModel(oldModel: HistoryModel?, newModel: HistoryModel, payload: ChangePayload?) {
         renderLoadingState(oldModel, newModel)
-        renderItems(oldModel, newModel)
+        renderItems(newModel)
     }
 
 
     private fun renderLoadingState(oldModel: HistoryModel?, newModel: HistoryModel) {
         if (oldModel?.loadingState != newModel.loadingState) {
             when (newModel.loadingState) {
-                WorkState.Complete -> {
-                    tvFail.visibility = View.GONE
-                    pbLoading.visibility = View.GONE
-                    rvList.visibility = View.VISIBLE
-                }
-                WorkState.InProgress -> {
-                    tvFail.visibility = View.GONE
-                    pbLoading.visibility = View.VISIBLE
-                    rvList.visibility = View.GONE
-                }
-                is WorkState.Fail -> {
-                    tvFail.visibility = View.VISIBLE
-                    pbLoading.visibility = View.GONE
-                    rvList.visibility = View.GONE
-                }
+                WorkState.Complete -> showResult()
+                WorkState.InProgress -> showLoading()
+                is WorkState.Fail -> showFail()
             }
         }
     }
 
-    private fun renderItems(oldModel: HistoryModel?, newModel: HistoryModel) {
+    private fun renderItems(newModel: HistoryModel) {
         if (newModel.loadingState == WorkState.Complete
             && !newModel.historyResultModels.isEmpty()
         ) {

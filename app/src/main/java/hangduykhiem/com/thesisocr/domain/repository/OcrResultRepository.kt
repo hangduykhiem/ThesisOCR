@@ -9,6 +9,7 @@ import hangduykhiem.com.thesisocr.helper.applySingleSchedulers
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class OcrResultRepository @Inject constructor(
@@ -19,8 +20,8 @@ class OcrResultRepository @Inject constructor(
         return ocrResultDAO.getAllOcrResult().map { list ->
             list.map { data ->
                 OcrResultDomainModel(data.uid!!, data.uri, data.result, data.timestamp)
-            }
-        }.compose(applySingleSchedulers())
+            }.reversed()
+        }.delay(500, TimeUnit.MILLISECONDS).compose(applySingleSchedulers())
     }
 
     fun saveOcrResult(uri: Uri, result: String): Completable {

@@ -4,10 +4,7 @@ import com.wolt.tacotaco.components.Transition
 import hangduykhiem.com.thesisocr.R
 import hangduykhiem.com.thesisocr.di.modules.ControllerModule
 import hangduykhiem.com.thesisocr.domain.interactor.RootInteractor
-import hangduykhiem.com.thesisocr.helper.DialogPopAnimation
-import hangduykhiem.com.thesisocr.helper.DialogPushAnimation
-import hangduykhiem.com.thesisocr.helper.NoArg
-import hangduykhiem.com.thesisocr.helper.NoModel
+import hangduykhiem.com.thesisocr.helper.*
 import hangduykhiem.com.thesisocr.view.MainActivity
 import javax.inject.Inject
 
@@ -30,10 +27,10 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
             }
             ToMainTabsTransition -> {
                 val controller = MainTabsController()
-                pushChild(controller, R.id.flMainContainer)
+                pushChild(controller, R.id.flMainContainer, FadeInFadeOutAnimation())
             }
             FromResultControllerTransition -> {
-                popChild(R.id.flMainContainer, ResultController::class.java.name)
+                popChild(R.id.flMainContainer, ResultController::class.java.name, PopAnimation())
             }
             is ToPermissionDeniedDialogTransition -> {
                 val controller = PermissionDialogController()
@@ -44,7 +41,7 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
             }
             is ToResultControllerTransition -> {
                 val controller = ResultController(transition.args)
-                pushChild(controller, R.id.flMainContainer)
+                pushChild(controller, R.id.flMainContainer, PushAnimation())
             }
 
         }

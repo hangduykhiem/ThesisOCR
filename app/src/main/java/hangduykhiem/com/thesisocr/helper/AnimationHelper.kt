@@ -42,12 +42,84 @@ class DialogPopAnimation(private val dialogContainerId: Int = R.id.dialogContain
 
 }
 
+class FadeInFadeOutAnimation : TransitionAnimation {
+
+    override fun getAnimator(enterController: Controller<*, *>?, exitController: Controller<*, *>?): Animator {
+        val exitView = exitController?.view
+        val enterView = enterController?.view
+        return buildAnimator(250, onUpdate = {
+            exitView?.alpha = 1 - it
+            enterView?.alpha = it
+        })
+    }
+
+}
+
+class PushAnimation : TransitionAnimation {
+
+    override fun getAnimator(enterController: Controller<*, *>?, exitController: Controller<*, *>?): Animator {
+        return getPopPushAnimator(enterController, exitController, true)
+    }
+
+}
+
+class PopAnimation : TransitionAnimation {
+
+    override fun getAnimator(enterController: Controller<*, *>?, exitController: Controller<*, *>?): Animator {
+        return getPopPushAnimator(enterController, exitController, false)
+    }
+
+}
+
+private fun getPopPushAnimator(
+    enterController: Controller<*, *>?,
+    exitController: Controller<*, *>?,
+    push: Boolean
+): Animator {
+
+    val enterView = enterController?.view
+    val exitView = exitController?.view
+    if (enterView == null || exitView == null) {
+        return AnimatorSet()
+    }
+
+    enterView.alpha = 0f
+
+    val x0 = (if (push) enterView.width else -enterView.width).toFloat()
+    val x1 = (if (push) -exitView.width else exitView.width).toFloat()
+
+    val animator1 = buildAnimator(200, onUpdate = {
+        exitView.alpha = 1 - it
+        exitView.translationX = x1 * it
+    })
+
+    val animator2 = buildAnimator(200, onUpdate = {
+        enterView.alpha = it
+        enterView.translationX = x0 * (1 - it)
+    })
+
+    animator2.startDelay = 100
+    val set = AnimatorSet()
+    set.playTogether(animator1, animator2)
+    set.addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator?) {
+            enterView.translationX = 0f
+            enterView.alpha = 1f
+            exitView.translationX = 0f
+            exitView.alpha = 1f
+        }
+    })
+    return set
+
+}
+
 fun buildAnimator(
     duration: Int, interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
     onUpdate: ((Float) -> (Unit)), onStart: (() -> (Unit))? = null,
     onEnd: ((cancelled: Boolean) -> (Unit))? = null, startDelay: Int = 0,
     lifecycleProvider: LifecycleProvider? = null
 ): ValueAnimator {
+
     val animator = ValueAnimator.ofFloat(0f, 1f)
         .setDuration(duration.toLong())
     animator.interpolator = interpolator
@@ -74,6 +146,7 @@ fun buildAnimator(
     animator.startDelay = startDelay.toLong()
     lifecycleProvider?.addListener(onDeflate = { animator.cancel() })
     return animator
+
 }
 
 

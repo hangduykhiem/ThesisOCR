@@ -14,8 +14,9 @@ import hangduykhiem.com.thesisocr.domain.interactor.ResultArgs
 import hangduykhiem.com.thesisocr.domain.model.OcrResultDomainModel
 import hangduykhiem.com.thesisocr.view.controller.HistoryController
 
-class HistoryAdapter(private val commandListener: (Command) -> Unit) :
-    RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(
+    private val commandListener: (Command) -> Unit
+) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private var items: List<OcrResultDomainModel> = listOf()
 
@@ -38,8 +39,9 @@ class HistoryAdapter(private val commandListener: (Command) -> Unit) :
         historyViewHolder.bind(items[position])
     }
 
-    class HistoryViewHolder(
-        val holder: View, private val commandListener: (Command) -> Unit
+    open class HistoryViewHolder(
+        val holder: View,
+        private val commandListener: (Command) -> Unit
     ) : RecyclerView.ViewHolder(holder) {
         private lateinit var item: OcrResultDomainModel
 
@@ -52,7 +54,6 @@ class HistoryAdapter(private val commandListener: (Command) -> Unit) :
                 commandListener(HistoryController.GoToResultCommand(ResultArgs(ocrResultDomainModel = item)))
             }
         }
-
 
         fun bind(item: OcrResultDomainModel) {
             this.item = item

@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="@dimen/u1"
-        android:paddingBottom="@dimen/u1" />
+        android:paddingBottom="@dimen/u1"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvFail"
