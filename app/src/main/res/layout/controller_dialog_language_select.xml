@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/vBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#77000000" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/dialogContainer"
+        android:layout_width="@dimen/u35"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:elevation="@dimen/u1"
+        android:padding="@dimen/u2">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select OCR languages"
+            android:textSize="@dimen/text5"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvExplanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/u1"
+            android:text="Selecting multiple languages may affect OCR performance"
+            android:textSize="@dimen/text1"
+            apps:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <FrameLayout
+            android:id="@+id/flEngCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/u1"
+            apps:layout_constraintTop_toBottomOf="@id/tvExplanation">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="ENG" />
+
+            <CheckBox
+                android:id="@+id/cbEng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/flFinCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/u1"
+            apps:layout_constraintTop_toBottomOf="@id/flEngCheckbox">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="FIN" />
+
+            <CheckBox
+                android:id="@+id/cbFin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/flVieCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/u1"
+            apps:layout_constraintTop_toBottomOf="@id/flFinCheckbox">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="VIE" />
+
+            <CheckBox
+                android:id="@+id/cbVie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/flJapCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/u1"
+            apps:layout_constraintTop_toBottomOf="@id/flVieCheckbox">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="JPN" />
+
+            <CheckBox
+                android:id="@+id/cbJap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/u2"
+            android:gravity="center"
+            android:padding="@dimen/u1"
+            android:text="Confirm"
+            android:textColor="@color/color_button_text"
+            apps:layout_constraintEnd_toEndOf="parent"
+            apps:layout_constraintTop_toBottomOf="@id/flJapCheckbox" />
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

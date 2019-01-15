@@ -24,4 +24,6 @@ interface ControllerComponent {
     fun inject(historyController: HistoryController)
 
     fun inject(settingsController: SettingsController)
+
+    fun inject(languageSelectDialogController: LanguageSelectDialogController)
 }

@@ -43,6 +43,13 @@ class RootController : BaseController<NoArg, NoModel>(NoArg) {
                 val controller = ResultController(transition.args)
                 pushChild(controller, R.id.flMainContainer, PushAnimation())
             }
+            ToLanguageSelectDialogTranstion -> {
+                val controller = LanguageSelectDialogController()
+                pushChild(controller, R.id.flDialogContainer, DialogPushAnimation())
+            }
+            FromLanguageSelectDialogTransition -> {
+                popChild(R.id.flDialogContainer, LanguageSelectDialogController::class.java.name, DialogPopAnimation())
+            }
 
         }
     }

@@ -18,14 +18,14 @@ class TesseDelegate @Inject constructor(
 ) {
 
     val TESSBASE_PATH = Environment.getExternalStorageDirectory().toString()
-    private var currentLanguage: String = ""
+    private var currentLanguages: String = ""
     private val tessBaseAPI: TessBaseAPI = TessBaseAPI()
 
-    fun initLanguage(lang: String) {
-        if (lang != currentLanguage) {
+    fun initLanguages(lang: String) {
+        if (lang != currentLanguages) {
             val success = tessBaseAPI.init(TESSBASE_PATH, lang)
             if (success) {
-                currentLanguage = lang
+                currentLanguages = lang
             }
         }
     }

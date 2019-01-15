@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class OcrResultRepository @Inject constructor(
-    val ocrResultDAO: OcrResultDAO
+    private val ocrResultDAO: OcrResultDAO
 ) {
 
     fun getAllOcrResult(): Single<List<OcrResultDomainModel>> {

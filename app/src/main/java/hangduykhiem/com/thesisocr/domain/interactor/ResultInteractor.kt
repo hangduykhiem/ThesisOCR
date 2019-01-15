@@ -15,6 +15,7 @@ import hangduykhiem.com.thesisocr.domain.repository.OcrResultRepository
 import hangduykhiem.com.thesisocr.helper.WorkState
 import hangduykhiem.com.thesisocr.view.BaseActivity
 import hangduykhiem.com.thesisocr.view.controller.ResultController
+import hangduykhiem.com.thesisocr.view.controller.SettingsController
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -27,9 +28,11 @@ class ResultInteractor @Inject constructor(
 ) : Interactor<ResultArgs, ResultModel>() {
 
     private val disposables = CompositeDisposable()
+    private var currentLanguages = setOf("ENG");
 
     override fun onAttach(restored: Boolean) {
         super.onAttach(restored)
+        checkLanguage()
         if (!restored) {
             if (args.uriString != null) {
                 updateModel(ResultModel(loadingState = WorkState.Other, uriString = args.uriString))
@@ -51,6 +54,15 @@ class ResultInteractor @Inject constructor(
                 )
             }
         }
+    }
+
+    override fun onForeground() {
+        checkLanguage()
+    }
+
+    private fun checkLanguage() {
+        currentLanguages = activity.getSharedPreferences(SettingsController.SHARED_PREFERENCE, Context.MODE_PRIVATE)
+            .getStringSet(LanguageSelectInteractor.LANGUAGE_KEY, setOf("ENG"))!!
     }
 
     override fun onDetach() {
@@ -76,8 +88,7 @@ class ResultInteractor @Inject constructor(
     private fun getResult() {
         updateModel(model.copy(loadingState = WorkState.InProgress))
         val uri = Uri.parse(model.uriString) ?: return
-        tesseDelegate.initLanguage("eng")
-
+        tesseDelegate.initLanguages(currentLanguages.joinToString("+"))
         disposables.add(tesseDelegate.getText(uri).flatMapCompletable {
             updateModel(model.copy(loadingState = WorkState.Complete, resultString = it))
             ocrResultRepository.saveOcrResult(uri = uri, result = it)
