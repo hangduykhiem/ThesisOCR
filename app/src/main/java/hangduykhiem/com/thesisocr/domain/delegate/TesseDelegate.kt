@@ -7,7 +7,9 @@ import android.net.Uri
 import android.os.Environment
 import com.googlecode.tesseract.android.TessBaseAPI
 import hangduykhiem.com.thesisocr.di.modules.AppModule
+import hangduykhiem.com.thesisocr.helper.applyCompletableSchedulers
 import hangduykhiem.com.thesisocr.helper.applySchedulers
+import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Named
@@ -21,13 +23,15 @@ class TesseDelegate @Inject constructor(
     private var currentLanguages: String = ""
     private val tessBaseAPI: TessBaseAPI = TessBaseAPI()
 
-    fun initLanguages(lang: String) {
-        if (lang != currentLanguages) {
-            val success = tessBaseAPI.init(TESSBASE_PATH, lang)
-            if (success) {
-                currentLanguages = lang
+    fun initLanguages(lang: String): Completable {
+        return Completable.fromCallable {
+            if (lang != currentLanguages) {
+                val success = tessBaseAPI.init(TESSBASE_PATH, lang)
+                if (success) {
+                    currentLanguages = lang
+                }
             }
-        }
+        }.compose(applyCompletableSchedulers())
     }
 
     fun getText(uri: Uri): Observable<String> {

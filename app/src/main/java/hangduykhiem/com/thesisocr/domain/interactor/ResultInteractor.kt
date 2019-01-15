@@ -88,11 +88,12 @@ class ResultInteractor @Inject constructor(
     private fun getResult() {
         updateModel(model.copy(loadingState = WorkState.InProgress))
         val uri = Uri.parse(model.uriString) ?: return
-        tesseDelegate.initLanguages(currentLanguages.joinToString("+"))
-        disposables.add(tesseDelegate.getText(uri).flatMapCompletable {
-            updateModel(model.copy(loadingState = WorkState.Complete, resultString = it))
-            ocrResultRepository.saveOcrResult(uri = uri, result = it)
-        }.subscribe(
+        disposables.add(tesseDelegate.initLanguages(currentLanguages.joinToString("+")).andThen(
+            tesseDelegate.getText(uri).flatMapCompletable {
+                updateModel(model.copy(loadingState = WorkState.Complete, resultString = it))
+                ocrResultRepository.saveOcrResult(uri = uri, result = it)
+            }
+        ).subscribe(
             { },
             { updateModel(model.copy(loadingState = WorkState.Fail(it))) }
         ))
